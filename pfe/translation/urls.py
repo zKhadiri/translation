@@ -5,7 +5,4 @@ app_name = 'translation'
 urlpatterns = [
     path('', views.index,name='index'),
     path('start-now/', views.play_video,name='startnow'),
-    
-    
- 
 ]

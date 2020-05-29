@@ -120,9 +120,9 @@
                     <div class="single-widget">
                       <h2>Put the link of the video below</h2>
                       <form class="blog-search">
-                        <input type="text">
+                        <input type="text" id="video_url">
                         <button class="button button-default" data-text="Search"
-                          type="submit"><span>Search</span></button>
+                          type="button" onclick="playVideo();"><span>Search</span></button>
                       </form>
                     </div>
                     
@@ -141,6 +141,10 @@
                     </div>
 
                   </article>
+                 
+                  <video controls="" autoplay="" id="media" hidden>
+                    <source src="video_link" >
+                  </video>
 
                   <!-- End single blog post -->
                 </div>
@@ -209,13 +213,22 @@
         var src = e.target.result;
         var video = document.getElementById("video");
         var source = document.getElementById("source");
-
+        
         source.setAttribute("src", src);
         video.load();
         video.play();
       };
 
       reader.readAsDataURL(file);
+    }
+    
+    function playVideo(){
+      var url_video = document.getElementById("video_url").value;
+      var video = document.getElementById("media");
+      var source = document.getElementById("video_link");
+      video.hidden = false;
+      video.src = url_video;
+      video.play();
     }
   </script>
 </body>

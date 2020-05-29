@@ -3,7 +3,7 @@ from django.http import HttpResponse
 
 
 def index(request):
-    return render(request,'translation/index.html')
+    return render(request,'translation/index.html', {'nbar': 'home'})
 
 
 def error_404(request, exception):
