@@ -70,7 +70,7 @@
         <div id="navbar" class="navbar-collapse collapse">
           <ul id="top-menu" class="nav navbar-nav main-nav menu-scroll">
             <li><a href="">Home</a></li>
-            <li class="active"><a href="blog-archive.html">Upload </a></li>
+            <li class="active"><a href="">Upload </a></li>
           </ul>
         </div>
         <!--/.nav-collapse -->
@@ -120,19 +120,25 @@
                     <div class="single-widget">
                       <h2>Put the link of the video below</h2>
                       <form class="blog-search">
-                        <input type="text" id="video_url">
+                        <input type="text" id="youTubeUrl"><br><br>
+
+                        <iframe hidden id="videoObject" type="text/html" width="500" height="265" frameborder="0" allowfullscreen></iframe>
+
+                         <video hidden controls="" autoplay="" id="media" hidden controls width="450" height="300">
+                           <source src="video_link" >
+                        </video><br>
                         <button class="button button-default" data-text="Search"
-                          type="button" onclick="playVideo();"><span>Search</span></button>
+                          type="button" onclick="validateYouTubeUrl() ;"><span>Search</span></button>
                       </form>
                     </div>
                     
                     <div class="single-widget">
                       <h2>Select a video from your computer</h2><br>
                       <form class="blog-search">
-                        
-                        <input  hidden="hidden" type="file" name="file"  onchange="selectedVideo(this);">
-                        <video hidden autoplay aria-placeholder="Preview" id="video" controls width="450" height="300">
-                          <source id="source" type="video/mp4">
+
+                        <input   type="file" name="file" onchange="selectedVideo(this);"> <input type="button" value="x">
+                        <video hidden  aria-placeholder="Preview" id="video" controls width="450" height="300">
+                          <source id="source" >
                         </video><br>
 
                         <button class="button button-default" data-text="Select"
@@ -142,9 +148,7 @@
 
                   </article>
                  
-                  <video controls="" autoplay="" id="media" hidden>
-                    <source src="video_link" >
-                  </video>
+
 
                   <!-- End single blog post -->
                 </div>
@@ -202,7 +206,9 @@
   <!-- Custom js -->
   <script type="text/javascript" src="{% static 'translation/assets/js/custom.js' %}"></script>
 
+
   <script>
+
     function selectedVideo(self) {
 
       video.hidden = false;
@@ -221,16 +227,55 @@
 
       reader.readAsDataURL(file);
     }
-    
-    function playVideo(){
-      var url_video = document.getElementById("video_url").value;
+
+    function validateYouTubeUrl() {
+
       var video = document.getElementById("media");
       var source = document.getElementById("video_link");
-      if (url_video !=""){
-        video.hidden = false;
-        video.src = url_video;
-      }
+      var url = $('#youTubeUrl').val();
+    if (url != undefined || url != '') {
+
+        var regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=|\?v=)([^#\&\?]*).*/;
+        var match = url.match(regExp);
+
+        if (match && match[2].length == 11) {
+        videoObject.hidden = false;
+        video.hidden = true;
+
+            // Do anything for being valid
+            // if need to change the url to embed url then use below line
+            $('#videoObject').attr('src', 'https://www.youtube.com/embed/' + match[2] + '?autoplay=1&enablejsapi=1');
+        }
+
+        else{
+
+        video.hidden=false;
+        videoObject.hidden=true;
+        video.src = url;
+        video.autoplay = false;
+
+}
+
     }
+}
+
+const realFileBtn = document.getElementById("real-file");
+const customBtn = document.getElementById("custom-button");
+const customTxt = document.getElementById("custom-text");
+
+customBtn.addEventListener("click", function() {
+  realFileBtn.click();
+});
+
+realFileBtn.addEventListener("change", function() {
+  if (realFileBtn.value) {
+    customTxt.innerHTML = realFileBtn.value.match(
+      /[\/\\]([\w\d\s\.\-\(\)]+)$/
+    )[1];
+  } else {
+    customTxt.innerHTML = "No file chosen, yet.";
+  }
+});
   </script>
 </body>
 
