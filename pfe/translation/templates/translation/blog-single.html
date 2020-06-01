@@ -233,29 +233,22 @@
       var video = document.getElementById("media");
       var source = document.getElementById("video_link");
       var url = $('#youTubeUrl').val();
-    if (url != undefined || url != '') {
-
-        var regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=|\?v=)([^#\&\?]*).*/;
-        var match = url.match(regExp);
-
-        if (match && match[2].length == 11) {
-        videoObject.hidden = false;
-        video.hidden = true;
-
-            // Do anything for being valid
-            // if need to change the url to embed url then use below line
-            $('#videoObject').attr('src', 'https://www.youtube.com/embed/' + match[2] + '?autoplay=1&enablejsapi=1');
+      if (url != undefined || url != '') {
+          var regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=|\?v=)([^#\&\?]*).*/;
+          var match = url.match(regExp);
+          if (match && match[2].length == 11) {
+          videoObject.hidden = false;
+          video.hidden = true;
+          video.src=video.src;
+          $('#videoObject').attr('src', 'https://www.youtube.com/embed/' + match[2] + '?autoplay=0&enablejsapi=1');
+          }
+          else if(url !=''){
+            video.hidden=false;
+            videoObject.src=videoObject.src;
+            videoObject.hidden=true;
+            video.src = url;
+            video.autoplay = false;
         }
-
-        else{
-
-        video.hidden=false;
-        videoObject.hidden=true;
-        video.src = url;
-        video.autoplay = false;
-
-}
-
     }
 }
 
