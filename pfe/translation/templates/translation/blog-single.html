@@ -41,6 +41,7 @@
 </head>
 
 <body>
+  {% block content %}
   <!-- BEGAIN PRELOADER -->
   <div id="preloader">
     <div class="loader">&nbsp;</div>
@@ -119,37 +120,34 @@
 
                     <div class="single-widget">
                       <h2>Put the link of the video below</h2>
-                      <form class="blog-search">
-                        <input type="text" id="youTubeUrl"><br><br>
-
+                      
+                      <form method="POST" class="blog-search">{% csrf_token %}
+                        <input name="link" type="text" id="youTubeUrl"><br><br>
+                        
                         <iframe hidden id="videoObject" type="text/html" width="500" height="265" frameborder="0" allowfullscreen></iframe>
 
                          <video hidden controls="" autoplay="" id="media" hidden controls width="450" height="300">
                            <source src="video_link" >
                         </video><br>
                         <button class="button button-default" data-text="Search"
-                          type="button" onclick="validateYouTubeUrl() ;"><span>Search</span></button>
+                          type="submit" name="Search" onclick="validateYouTubeUrl() ;"><span>Search</span></button>
                       </form>
                     </div>
-                    
                     <div class="single-widget">
                       <h2>Select a video from your computer</h2><br>
-                      <form class="blog-search">
-
-                        <input   type="file" name="file" onchange="selectedVideo(this);"> <input type="button" value="x">
+                      <form method="POST" class="blog-search" enctype="multipart/form-data">{% csrf_token %}
+                        <input type="file" name="myVideo" onchange="selectedVideo(this);">
                         <video hidden  aria-placeholder="Preview" id="video" controls width="450" height="300">
                           <source id="source" >
                         </video><br>
-
                         <button class="button button-default" data-text="Select"
-                          type="submit"><span>Select</span></button>
+                          type="submit" name="Select"><span>Select</span></button>
                       </form>
                     </div>
-
                   </article>
                  
 
-
+                  {% endblock %}
                   <!-- End single blog post -->
                 </div>
               </div>
