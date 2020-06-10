@@ -7,12 +7,13 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
   <title>Rex : Upload Videos</title>
+  
   <!-- Favicon -->
   <link rel="shortcut icon" type="image/icon" href="{% static 'translation/assets/images/favicon.ico' %}" />
   <!-- Font Awesome -->
   <link href="{% static 'translation/assets/css/font-awesome.css' %}" rel="stylesheet">
   <!-- Sweet Alerte -->
-  <link href="{% static 'node_modules/sweetalert/dist/sweetalert.min.css' %}" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-sweetalert/1.0.1/sweetalert.min.css" rel="stylesheet">
   <!-- Bootstrap -->
   <link href="{% static 'translation/assets/css/bootstrap.css' %}" rel="stylesheet">
   <!-- Slick slider -->
@@ -23,7 +24,7 @@
   <link rel="stylesheet" type="text/css" href="{% static 'translation/assets/css/animate.css' %}" />
   <!-- Theme color -->
   <link id="switcher" href="{% static 'translation/assets/css/theme-color/default.css' %}" rel="stylesheet">
-
+  
   <!-- Main Style -->
   <link href="{% static 'translation/style.css' %}" rel="stylesheet">
 
@@ -123,18 +124,20 @@
                     <div class="single-widget">
                       <h2>Put the link of the video below</h2>
                       
-                <form method="POST" enctype="multipart/form-data" class="blog-search">{% csrf_token %}
+                <form method="POST" action="" id="post-form" enctype="multipart/form-data" class="blog-search">
                         <input name="link" type="text" id="youTubeUrl"><br><br>
                         <iframe hidden id="videoObject" type="text/html" width="500" height="265" frameborder="0" allowfullscreen></iframe>
 
                          <video hidden controls="" autoplay="" id="media" hidden controls width="450" height="300">
-                           <source src="video_link" >
+                           <source src="" >
                         </video><br>
-
-                        <button class="button button-default" data-text="Search" 
-                         name="Search" onclick="validateYouTubeUrl();"><span>Search</span></button>
-                     
+                        <p id="myElem" style="display:none">Video Downloaded</p>
+                        <p id="empty" style="display:none">url should not be empty</p>
+                        <p id="Down" style="display:none">Download</p>
+                         <input type="button" class="button button-default" data-text="Search" 
+                         name="Search" onclick="validateYouTubeUrl();" value="Search">
                     </div>
+                    
                     <div class="single-widget">
                       <h2>Select a video from your computer</h2><br>
                     
@@ -149,10 +152,8 @@
                     <button class="button button-default col-md-7" data-text="Download"
                           type="submit" id="upload-btn" name="Download" ><span>Download</span></button>
 
-
+                    
                 </form>
-
-
                 <button class="button button-default col-sm-4" data-text="Next >>"
                 name="Next" onclick="sweetAlertClick();"><span>Next </span></button>
                   
@@ -160,6 +161,7 @@
                  
 
                   {% endblock %}
+                  
                   <!-- End single blog post -->
                 </div>
               </div>
@@ -192,13 +194,15 @@
         </div>
       </div>
     </div>
-
+    
   </footer>
   <!-- End Footer -->
   <!-- jQuery library -->
+  
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
   <!-- Include all compiled plugins (below), or include individual files as needed -->
   <!-- Bootstrap -->
+  
   <script src="{% static 'translation/assets/js/bootstrap.js' %}"></script>
   <!-- Slick Slider -->
   <script type="text/javascript" src="{% static 'translation/assets/js/slick.js' %}"></script>
@@ -213,10 +217,10 @@
   
   <script type="text/javascript" src="{% static 'translation/assets/js/wow.js' %}"></script>
   <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
-
+  
   <!-- Custom js -->
   <script type="text/javascript" src="{% static 'translation/assets/js/custom.js' %}"></script>
-
+  
 
   <script>
 
@@ -233,14 +237,14 @@
         
         source.setAttribute("src", src);
         video.load();
-        video.play();
+        video.autoplay = false;
       };
 
       reader.readAsDataURL(file);
     }
 
     function validateYouTubeUrl() {
-
+      var elem = document.getElementById("myElem");
       var video = document.getElementById("media");
       var source = document.getElementById("video_link");
       var url = $('#youTubeUrl').val();
@@ -262,24 +266,6 @@
         }
     }
 }
-
-const realFileBtn = document.getElementById("real-file");
-const customBtn = document.getElementById("custom-button");
-const customTxt = document.getElementById("custom-text");
-
-customBtn.addEventListener("click", function() {
-  realFileBtn.click();
-});
-
-realFileBtn.addEventListener("change", function() {
-  if (realFileBtn.value) {
-    customTxt.innerHTML = realFileBtn.value.match(
-      /[\/\\]([\w\d\s\.\-\(\)]+)$/
-    )[1];
-  } else {
-    customTxt.innerHTML = "No file chosen, yet.";
-  }
-});
   </script>
 
   <script>
@@ -322,6 +308,38 @@ realFileBtn.addEventListener("change", function() {
 
     }
   </script>
+  <script>
+    $(function(){
+    $("#post-form").submit(function(){
+    var data = new FormData($('#post-form').get(0));
+    $("#Down").show();
+                $.ajax({
+                    type:"POST",
+                    url: "{% url 'translation:startnow' %}",
+                    data : data,
+                    cache: false,
+                    contentType: false,
+                    processData: false,
+                    success: function(json){
+                      if(json.message=='ok'){
+                            $("#myElem").show();
+                            $("#empty").hide();
+                            $("#Down").hide();
+                        }
+                        else if(json.message=="empty"){
+                            //console.log('Something wrong with response');
+                            $("#empty").show();
+                            $("#myElem").hide();
+                        }
+                    },
+                    failure: function(){
+                        $(this).addClass("error");
+                    }
+                });
+                return false;
+    });
+    });
+</script>
 </body>
 
 </html>
