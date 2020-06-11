@@ -150,6 +150,8 @@
                    
 
                     </div>
+                    <p id="video_error" style="display:none">This url cannot be played</p>
+                    <p id="download_error" style="display:none">Sorry, we couldn't download this url</p>
                     <div>
                      <center><p id="Down" class="label label-info " style="display:none">Downloading, please wait ...</p> 
                     <p id="myElem" class="label label-success" style="display:none">Video Downloaded , Click on next for the next step</p></center>
@@ -157,7 +159,7 @@
                     <button class="button button-default col-md-7" data-text="Download"
                           type="submit" id="upload-btn" name="Download" ><span>Download</span></button>
 
-                    <h4 id="video_error" style="display:none">404</h4>
+                    
                 </form>
                 <button class="button button-default col-sm-4" data-text="Next >>"
                 name="Next" onclick="sweetAlertClick();"><span>Next </span></button>
@@ -230,7 +232,6 @@
   <script>
 
     function selectedVideo(self) {
-
       video.hidden = false;
       var file = self.files[0];
       var reader = new FileReader();
@@ -244,16 +245,14 @@
         video.load();
         video.autoplay = false;
       };
-
       reader.readAsDataURL(file);
     }
-
     function validateYouTubeUrl() {
+      $("#video_error").hide();
       var elem = document.getElementById("myElem");
       var video = document.getElementById("media");
       var source = document.getElementById("video_link");
-      
-      //document.getElementById(empty).style.visibility = 'hidden';
+      document.getElementById('empty').style.visibility = 'hidden';
       var url = $('#youTubeUrl').val();
       if (url != undefined || url != '') {
           var regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=|\?v=)([^#\&\?]*).*/;
@@ -264,29 +263,16 @@
           video.src=video.src;
           $('#videoObject').attr('src', 'https://www.youtube.com/embed/' + match[2] + '?autoplay=0&enablejsapi=1');
           }
-          else if(url !=''){
+          else {
             video.hidden=false;
             videoObject.src=videoObject.src;
             videoObject.hidden=true;
             video.src = url;
             video.autoplay = false;
-
             video.addEventListener("error", function(e) {
-            console.log("<video> error");
-            console.log(e.target.error);
-            document.getElementById(video_error).style.visibility = 'visible';
-            
+                $("#video_error").show();
           });
-
-          source.addEventListener("error", function(e) {
-              console.log("<source> error");
-              document.getElementById(video_error).style.visibility = 'visible';
-              console.log(e.target.parentNode.error);
-              console.log(e.target.parentNode.networkState);
-          });
-            
         }
-        
     }
 }
   </script>
@@ -339,6 +325,7 @@
     $("#Down").show();
     $("#myElem").hide();
     $("#empty").hide();
+    $("#download_error").hide();
                 $.ajax({
                     type:"POST",
                     url: "{% url 'translation:startnow' %}",
@@ -351,12 +338,19 @@
                             $("#myElem").show();
                             $("#empty").hide();
                             $("#Down").hide();
+                            $("#download_error").hide();
                         }
                         else if(json.message=="empty"){
                             //console.log('Something wrong with response');
                             $("#empty").show();
                             $("#myElem").hide();
                             $("#Down").hide();
+                            $("#download_error").hide();
+                        }
+                        else if(json.message=="not valid"){
+                          $("#download_error").show();
+                          $("#myElem").hide();
+                          $("#Down").hide();
                         }
                     },
                     failure: function(){
