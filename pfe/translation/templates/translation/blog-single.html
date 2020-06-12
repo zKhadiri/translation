@@ -143,7 +143,7 @@
                     <div class="single-widget">
                       <h2>Select a video from your computer</h2><br>
                     
-                      <input type="file" name="myVideo" onchange="selectedVideo(this);">
+                      <input type="file" name="myVideo" onchange="selectedVideo(this);" accept=".mp4,.mkv,.webm,.oggn,.ogv,.3gp">
                         <video hidden  aria-placeholder="Preview" id="video" controls width="450" height="300">
                           <source id="source" >
                         </video><br>
@@ -230,17 +230,14 @@
   
 
   <script>
-
     function selectedVideo(self) {
       video.hidden = false;
       var file = self.files[0];
       var reader = new FileReader();
       reader.onload = function (e) {
-
         var src = e.target.result;
         var video = document.getElementById("video");
         var source = document.getElementById("source");
-        
         source.setAttribute("src", src);
         video.load();
         video.autoplay = false;
@@ -326,38 +323,38 @@
     $("#myElem").hide();
     $("#empty").hide();
     $("#download_error").hide();
-                $.ajax({
-                    type:"POST",
-                    url: "{% url 'translation:startnow' %}",
-                    data : data,
-                    cache: false,
-                    contentType: false,
-                    processData: false,
-                    success: function(json){
-                      if(json.message=='ok'){
-                            $("#myElem").show();
-                            $("#empty").hide();
-                            $("#Down").hide();
-                            $("#download_error").hide();
-                        }
-                        else if(json.message=="empty"){
-                            //console.log('Something wrong with response');
-                            $("#empty").show();
-                            $("#myElem").hide();
-                            $("#Down").hide();
-                            $("#download_error").hide();
-                        }
-                        else if(json.message=="not valid"){
-                          $("#download_error").show();
-                          $("#myElem").hide();
-                          $("#Down").hide();
-                        }
-                    },
-                    failure: function(){
-                        $(this).addClass("error");
-                    }
-                });
-                return false;
+    $.ajax({
+        type:"POST",
+        url: "{% url 'translation:startnow' %}",
+        data : data,
+        cache: false,
+        contentType: false,
+        processData: false,
+        success: function(json){
+          if(json.message=='ok'){
+                $("#myElem").show();
+                $("#empty").hide();
+                $("#Down").hide();
+                $("#download_error").hide();
+            }
+            else if(json.message=="empty"){
+                //console.log('Something wrong with response');
+                $("#empty").show();
+                $("#myElem").hide();
+                $("#Down").hide();
+                $("#download_error").hide();
+            }
+            else if(json.message=="not valid"){
+              $("#download_error").show();
+              $("#myElem").hide();
+              $("#Down").hide();
+            }
+        },
+        failure: function(){
+            $(this).addClass("error");
+        }
+    });
+    return false;
     });
     });
 </script>
