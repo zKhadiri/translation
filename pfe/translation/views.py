@@ -41,14 +41,14 @@ def play_video(request):
                     response.set_cookie('video',video_name+'.mp4')
                     return response
                 elif mimetypes.MimeTypes().guess_type(url)[0].startswith("video"):
-                    local_filename = url.split('/')[-1]
+                    video_extension=''.join(random.choice(string.ascii_lowercase) for i in range(5))+'.'+url.split('/')[-1].split('.')[-1]
                     r = requests.get(url,stream=True)
-                    with open('{}/{}'.format(os.path.abspath('translation/media'),local_filename), 'wb') as f:
+                    with open('{}/{}'.format(os.path.abspath('translation/media'),video_extension), 'wb') as f:
                         for chunk in r.iter_content(chunk_size=1024):
                             if chunk:
                                 f.write(chunk)
                     reponse = HttpResponse(json.dumps({'message': 'ok'}),content_type="application/json")
-                    reponse.set_cookie("video",local_filename)
+                    reponse.set_cookie("video",video_extension)
                     return reponse
             except Exception:
                 return HttpResponse(json.dumps({'message': 'not valid'}),content_type="application/json")
