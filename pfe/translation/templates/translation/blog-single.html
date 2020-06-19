@@ -150,6 +150,7 @@
                    
 
                     </div>
+                    <p id="two" style="display:none">You cannot download and upload at the same time</p>
                     <p id="video_error" style="display:none">This url cannot be played</p>
                     <p id="download_error" style="display:none">Sorry, we couldn't download this url</p>
                     <div>
@@ -323,6 +324,7 @@
     $("#myElem").hide();
     $("#empty").hide();
     $("#download_error").hide();
+    $("#two").hide();
     $.ajax({
         type:"POST",
         url: "{% url 'translation:startnow' %}",
@@ -349,6 +351,13 @@
               $("#myElem").hide();
               $("#Down").hide();
             }
+            else if(json.message=="url and files"){
+              $("#two").show();
+              $("#download_error").hide();
+              $("#myElem").hide();
+              $("#Down").hide();
+            }
+
         },
         failure: function(){
             $(this).addClass("error");
