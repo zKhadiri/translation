@@ -150,15 +150,39 @@
                   <aside class="blog-right">
                     <!-- Start Sidebar Single widget -->
                     <div class="single-widget">
-                      <h2>Examples</h2>
-                      <p>JHSDJSDJDJJ</p>
-                     
+                      <h2>How to create an SRT file </h2>
+                      <p>This image shows an ideal example of how to write your own <strong>SRT</strong> file </p><br>
+                      <img  src="{% static 'translation/assets/images/example_srt.jpg' %}" class="img-fluid popup"  width="400" height="200">
+                
+                      <center><label for="" style="color:mediumaquamarine ;">Click on the image to enlarge</label></center>
+                      <div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+                        <div class="modal-dialog modal-lg">
+                          <div class="modal-content">
+                            <img id="popup-img" src="" alt="image">
+                          </div>
+                        </div>
+                      </div>
                     </div>
                     <!-- End Sidebar Single widget -->
                    
                     
                 </aside>
               </div>
+
+              <div class="col-lg-5 col-md-5 col-sm-12">
+                <aside class="blog-right">
+                  <!-- Start Sidebar Single widget -->
+                  <div class="single-widget">
+                    <h2>More details</h2>
+                    <p>If you have trouble understanding how to create your srt file, here are some pages that can help you</p><br>
+                    <a target="_blank" style="color: rgba(206, 73, 50, 0.774);"  href="https://www.socialmediaexaminer.com/create-custom-srt-files-video-subtitles/">How to Create Custom SRT Files for Video Subtitles</a>
+                    <a target="_blank" style="color: rgba(206, 73, 50, 0.774);"  href="https://www.socialmediaexaminer.com/create-custom-srt-files-video-subtitles/">How to Create a SRT File | BY SOFIA ENAMORADO</a>
+                  </div>
+                  <!-- End Sidebar Single widget -->
+                 
+                  
+              </aside>
+            </div>
               
             </div>
 
@@ -216,6 +240,18 @@
   
   <!-- Custom js -->
   <script type="text/javascript" src="{% static 'translation/assets/js/custom.js' %}"></script>
+
+
+  <script>
+      $('.popup').click(function(){
+        var src= $(this).attr('src');
+        $('.modal').modal('show');
+        $('#popup-img').attr('src', src);
+ 
+
+
+      });
+  </script>
   
 
 </body>

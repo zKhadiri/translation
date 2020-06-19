@@ -1,8 +1,9 @@
 from django.shortcuts import render
 from django.http import HttpResponse
 from django.core.files.storage import FileSystemStorage
-import requests,os,re,pytube,sys,json,mimetypes,random,string
+import requests,os,re,pytube,json,mimetypes,random,string
 from django.views.decorators.csrf import csrf_exempt
+from time import sleep
 
 
 def index(request):
@@ -13,13 +14,18 @@ def error_404(request, exception):
     return render(request,'translation/404.html', status = 404)
 
 def creation_script(request):
-    
-    return render(request,'translation/creation_scripte.html',{"video":request.COOKIES['video']})
-
+    if 'video' in request.COOKIES:
+        return render(request,'translation/creation_scripte.html',{"video":request.COOKIES['video']})
+    else:
+        return render(request,'translation/error.html')
 def generer_script(request):
-    print(request.COOKIES)
-    return render(request,'translation/generer_script.html',{"video":request.COOKIES['video']})
-
+    if 'video' in request.COOKIES:
+        return render(request,'translation/generer_script.html',{"video":request.COOKIES['video']})
+    else:
+        return render(request,'translation/error.html')
+        
+        
+        
 @csrf_exempt
 def play_video(request):
     if request.method == 'POST':
