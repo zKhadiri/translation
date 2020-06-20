@@ -5,6 +5,8 @@ import requests,os,re,pytube,json,mimetypes,random,string
 from django.views.decorators.csrf import csrf_exempt
 from time import sleep
 
+def watch(request):
+    return render(request,'translation/watch.html',{"video":request.COOKIES['video'],"srt":request.COOKIES['srt']})
 
 def index(request):
     response =  render(request,'translation/index.html', {'nbar': 'home'})
@@ -18,14 +20,28 @@ def creation_script(request):
         return render(request,'translation/creation_scripte.html',{"video":request.COOKIES['video']})
     else:
         return render(request,'translation/error.html')
+    
+
+@csrf_exempt
 def generer_script(request):
     if 'video' in request.COOKIES:
+        if request.method =="POST":
+            sub_file = request.FILES['mySub']
+            if str(sub_file).split('.')[-1]=="srt":
+                srt_name=''.join(random.choice(string.ascii_lowercase) for i in range(5))+".vtt"
+                with open('{}/{}'.format(os.path.abspath('translation/media'),srt_name),"w")as f:
+                    f.write("WEBVTT\n"+str(sub_file.read().decode()).replace(',','.'))
+            else:
+                srt_name=''.join(random.choice(string.ascii_lowercase) for i in range(5))+".vtt"
+                fs = FileSystemStorage()
+                fs.save(srt_name,sub_file)
+            reponse= HttpResponse(json.dumps({'message': 'ok',}),content_type="application/json")
+            reponse.set_cookie("srt",srt_name)
+            return reponse
         return render(request,'translation/generer_script.html',{"video":request.COOKIES['video']})
     else:
         return render(request,'translation/error.html')
-        
-        
-        
+         
 @csrf_exempt
 def play_video(request):
     if request.method == 'POST':

@@ -123,8 +123,8 @@
 
                     <div class="single-widget">
                       <h2>Import script from your computer</h2><br>
-                      <form>
-                      <input  type="file"  name="mySub" accept=".srt">
+                      <form method="POST" action="" id="frm_upload" enctype="multipart/form-data">
+                      <input  type="file"  name="mySub" accept=".vtt,.srt">
                         <video hidden  aria-placeholder="Preview" id="video" controls width="450" height="300">
                           <source id="source" >
                         </video><br>
@@ -136,7 +136,7 @@
 
                   </form>
                   <button style="margin-left: 8rem;" class="button button-default col-sm-4"  data-text="Next >>"
-                    name="Next" ><span>Next </span></button>
+                    name="Next" onclick="location.href = '/watch/';"><span>Next </span></button>
                   </article>
                  
                   
@@ -220,7 +220,38 @@
   <!-- Custom js -->
   <script type="text/javascript" src="{% static 'translation/assets/js/custom.js' %}"></script>
   
+  <script>
+    $(function(){
+    $("#frm_upload").submit(function(){
+    var data = new FormData($('#frm_upload').get(0));
+    $.ajax({
+        type:"POST",
+        url: "{% url 'translation:generate-script' %}",
+        data : data,
+        cache: false,
+        contentType: false,
+        processData: false,
+        success: function(json){
+          if(json.message=='ok'){
+                
+            }
+            else if(json.message=="empty"){
+                
+            }
+            else if(json.message=="not valid"){
+              
+            }
+           
 
+        },
+        failure: function(){
+            $(this).addClass("error");
+        }
+    });
+    return false;
+    });
+    });
+</script>
 </body>
 
 </html>

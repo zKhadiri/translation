@@ -9,6 +9,7 @@ urlpatterns = [
     path('start-now/', views.play_video,name='startnow'),
     path('creat-script/', views.creation_script,name='creat-script'),
     path('generate-script/', views.generer_script,name='generate-script'),
+    path('watch/', views.watch,name='watch'),
 ]
 if settings.DEBUG:
     urlpatterns+= static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
