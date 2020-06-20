@@ -11,6 +11,7 @@ def watch(request):
 def index(request):
     response =  render(request,'translation/index.html', {'nbar': 'home'})
     response.delete_cookie('video')
+    response.delete_cookie('srt')
     return response
 def error_404(request, exception):
     return render(request,'translation/404.html', status = 404)
@@ -82,4 +83,5 @@ def play_video(request):
          
     reponse =  render(request,'translation/blog-single.html')
     reponse.delete_cookie('video')
+    reponse.delete_cookie('srt')
     return reponse
