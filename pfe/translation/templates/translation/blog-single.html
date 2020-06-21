@@ -125,7 +125,7 @@
                       <h2>Put the link of the video below</h2>
                       
                 <form method="POST" action="" id="post-form" enctype="multipart/form-data" class="blog-search">
-                        <input name="link" type="text" id="youTubeUrl" ><br><br>
+                        <input name="link" type="text" id="youTubeUrl"><br><br>
                         <iframe hidden id="videoObject" type="text/html" width="500" height="265" frameborder="0" allowfullscreen></iframe>
 
                          <video hidden controls="" autoplay="" id="media" hidden controls width="450" height="300">
@@ -137,7 +137,7 @@
  
                         <div>
                          <button type="button" class="button button-default col-sm-4" data-text="Search"
-                          name="Search" onclick="validateYouTubeUrl();"><span>Search </span></button>
+                          name="Search" id="btnSearch" onclick="validateYouTubeUrl();"><span>Search </span></button>
                         </div>
                     </div>  
                     
@@ -355,6 +355,20 @@
     return false;
     });
     });
+    var pattern = /^(http|https):\/\/[\w\-_]+(\.[\w\-_]+)+([\w\-\.,@?^=%&amp;:/~\+#]*[\w\-\@?^=%&amp;/~\+#])+(.[a-z])?/;
+    var regex = new RegExp(pattern);
+    var website_url = $("#youTubeUrl").val();
+    $("#btnSearch").hide();
+    $("#youTubeUrl").keyup(function() {
+      if ($(this).val().match(regex)) {
+        $("#btnSearch").show();
+      } else {
+        $("#btnSearch").hide();
+      }
+    });
+</script>
+<script>
+
 </script>
 </body>
 

@@ -6,13 +6,17 @@ from django.views.decorators.csrf import csrf_exempt
 from time import sleep
 
 def watch(request):
-    return render(request,'translation/watch.html',{"video":request.COOKIES['video'],"srt":request.COOKIES['srt']})
+    if 'video' in request.COOKIES and 'srt' in request.COOKIES:
+        return render(request,'translation/watch.html',{"video":request.COOKIES['video'],"srt":request.COOKIES['srt']})
+    else:
+        return render(request,'translation/error.html')
 
 def index(request):
     response =  render(request,'translation/index.html', {'nbar': 'home'})
     response.delete_cookie('video')
     response.delete_cookie('srt')
     return response
+
 def error_404(request, exception):
     return render(request,'translation/404.html', status = 404)
 
