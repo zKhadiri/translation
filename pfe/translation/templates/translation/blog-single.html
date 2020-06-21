@@ -364,6 +364,7 @@
     $("#youTubeUrl").keyup(function() {
       if ($(this).val().match(regex)) {
         $("#btnSearch").show();
+        $("#empty").hide();
       } else {
         $("#btnSearch").hide();
       }
