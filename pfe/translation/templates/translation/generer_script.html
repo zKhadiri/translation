@@ -1,13 +1,14 @@
 {% load static %}
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
   <title>Rex : Upload Videos</title>
-  
+
   <!-- Favicon -->
   <link rel="shortcut icon" type="image/icon" href="{% static 'translation/assets/images/favicon.ico' %}" />
   <!-- Font Awesome -->
@@ -19,12 +20,13 @@
   <!-- Slick slider -->
   <link rel="stylesheet" type="text/css" href="{% static 'translation/assets/css/slick.css' %}" />
   <!-- Fancybox slider -->
-  <link rel="stylesheet" href="{% static 'translation/assets/css/jquery.fancybox.css' %}" type="text/css" media="screen" />
+  <link rel="stylesheet" href="{% static 'translation/assets/css/jquery.fancybox.css' %}" type="text/css"
+    media="screen" />
   <!-- Animate css -->
   <link rel="stylesheet" type="text/css" href="{% static 'translation/assets/css/animate.css' %}" />
   <!-- Theme color -->
   <link id="switcher" href="{% static 'translation/assets/css/theme-color/default.css' %}" rel="stylesheet">
-  
+
   <!-- Main Style -->
   <link href="{% static 'translation/style.css' %}" rel="stylesheet">
 
@@ -69,7 +71,8 @@
             <span class="icon-bar"></span>
           </button>
           <!-- LOGO -->
-          <a class="navbar-brand logo" href="{% url 'translation:index' %}"><img src="{% static 'translation/assets/images/logo.jpg' %}" alt="logo"></a>
+          <a class="navbar-brand logo" href="{% url 'translation:index' %}"><img
+              src="{% static 'translation/assets/images/logo.jpg' %}" alt="logo"></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul id="top-menu" class="nav navbar-nav main-nav menu-scroll">
@@ -124,28 +127,30 @@
                     <div class="single-widget">
                       <h2>Import script from your computer</h2><br>
                       <form method="POST" action="" id="frm_upload" enctype="multipart/form-data">
-                      <input  type="file"  name="mySub" accept=".vtt,.srt">
-                        <video hidden  aria-placeholder="Preview" id="video" controls width="450" height="300">
-                          <source id="source" >
+                        <input type="file" name="mySub" accept=".vtt,.srt">
+                        <video hidden aria-placeholder="Preview" id="video" controls width="450" height="300">
+                          <source id="source">
                         </video><br>
-                   
+
                     </div>
+                    <center>
+                      <p id="Down" class="label label-info " style="display:none">Downloading, please wait ...</p>
+                      <p id="myElem" class="label label-success" style="display:none">Subtitle Downloaded , You will be
+                        redirected after 3 seconds...</p>
+                    </center><br><br>
+                    <button class="button button-default col-md-6" data-text="Upload" type="submit" id="upload-btn"
+                      name="Upload"><span>Upload</span></button>
 
-                    <button class="button button-default col-md-6" data-text="Upload"
-                    type="submit" id="upload-btn" name="Upload" ><span>Upload</span></button>
-
-                  </form>
-                  <button style="margin-left: 8rem;" class="button button-default col-sm-4"  data-text="Next >>"
-                    name="Next" onclick="location.href = '/watch/';"><span>Next </span></button>
+                    </form>
                   </article>
-                 
-                  
-                  
+
+
+
                   {% endblock %}
-                  
+
                   <!-- End single blog post -->
                 </div>
-                
+
               </div>
 
               <div class="col-lg-4 col-md-5 col-sm-12">
@@ -153,22 +158,22 @@
                   <!-- Start Sidebar Single widget -->
                   <div class="single-widget">
                     <h2>video Preview</h2>
-                    <video  controls="" id="media"  controls width="300" height="200">
-                      <source src="/media/{{video}}" >
-                   </video>
+                    <video controls="" id="media" controls width="300" height="200">
+                      <source src="/media/{{video}}">
+                    </video>
                   </div>
                   <!-- End Sidebar Single widget -->
-                 
-                  
-              </aside>
-            </div>
-            
-          </div>
 
-          
+
+                </aside>
+              </div>
+
+            </div>
+
+
+          </div>
         </div>
       </div>
-    </div>
   </section>
   <!-- End blog section -->
 
@@ -179,7 +184,8 @@
         <div class="row">
           <div class="col-md-12">
             <div class="footer-top-area">
-              <a class="footer-logo" href="#"><img src="{% static 'translation/assets/images/logo.jpg' %}" alt="Logo"></a>
+              <a class="footer-logo" href="#"><img src="{% static 'translation/assets/images/logo.jpg' %}"
+                  alt="Logo"></a>
               <div class="footer-social">
                 <a class="facebook" href="#"><span class="fa fa-facebook"></span></a>
                 <a class="twitter" href="#"><span class="fa fa-twitter"></span></a>
@@ -193,15 +199,15 @@
         </div>
       </div>
     </div>
-    
+
   </footer>
   <!-- End Footer -->
   <!-- jQuery library -->
-  
+
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
   <!-- Include all compiled plugins (below), or include individual files as needed -->
   <!-- Bootstrap -->
-  
+
   <script src="{% static 'translation/assets/js/bootstrap.js' %}"></script>
   <!-- Slick Slider -->
   <script type="text/javascript" src="{% static 'translation/assets/js/slick.js' %}"></script>
@@ -213,45 +219,50 @@
   <!-- Add fancyBox -->
   <script type="text/javascript" src="{% static 'translation/assets/js/jquery.fancybox.pack.js' %}"></script>
   <!-- Wow animation -->
-  
+
   <script type="text/javascript" src="{% static 'translation/assets/js/wow.js' %}"></script>
   <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
-  
+
   <!-- Custom js -->
   <script type="text/javascript" src="{% static 'translation/assets/js/custom.js' %}"></script>
-  
-  <script>
-    $(function(){
-    $("#frm_upload").submit(function(){
-    var data = new FormData($('#frm_upload').get(0));
-    $.ajax({
-        type:"POST",
-        url: "{% url 'translation:generate-script' %}",
-        data : data,
-        cache: false,
-        contentType: false,
-        processData: false,
-        success: function(json){
-          if(json.message=='ok'){
-                
-            }
-            else if(json.message=="empty"){
-                
-            }
-            else if(json.message=="not valid"){
-              
-            }
-           
 
-        },
-        failure: function(){
+  <script>
+    $(function () {
+      $("#frm_upload").submit(function () {
+        var data = new FormData($('#frm_upload').get(0));
+        $("#Down").show();
+        $("#myElem").hide();
+        $.ajax({
+          type: "POST",
+          url: "{% url 'translation:generate-script' %}",
+          data: data,
+          cache: false,
+          contentType: false,
+          processData: false,
+          success: function (json) {
+            if (json.message == 'ok') {
+              $("#myElem").show();
+              $("#Down").hide();
+              window.setTimeout(function () {
+                window.location.href = "{% url 'translation:watch' %}";
+              }, 3000);
+
+            } else if (json.message == "empty") {
+
+            } else if (json.message == "not valid") {
+
+            }
+
+
+          },
+          failure: function () {
             $(this).addClass("error");
-        }
+          }
+        });
+        return false;
+      });
     });
-    return false;
-    });
-    });
-</script>
+  </script>
 </body>
 
 </html>

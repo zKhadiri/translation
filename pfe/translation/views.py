@@ -3,7 +3,6 @@ from django.http import HttpResponse
 from django.core.files.storage import FileSystemStorage
 import requests,os,re,pytube,json,mimetypes,random,string
 from django.views.decorators.csrf import csrf_exempt
-from time import sleep
 
 def watch(request):
     if 'video' in request.COOKIES and 'srt' in request.COOKIES:
@@ -32,7 +31,7 @@ def generer_script(request):
     if 'video' in request.COOKIES:
         if request.method =="POST":
             sub_file = request.FILES['mySub']
-            if str(sub_file).split('.')[-1]=="srt":
+            if str(sub_file).split('.')[-1].lower()=="srt":
                 srt_name=''.join(random.choice(string.ascii_lowercase) for i in range(5))+".vtt"
                 with open('{}/{}'.format(os.path.abspath('translation/media'),srt_name),"w")as f:
                     f.write("WEBVTT\n"+str(sub_file.read().decode()).replace(',','.'))

@@ -1,13 +1,14 @@
 {% load static %}
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
   <title>Rex : Create script</title>
-  
+
   <!-- Favicon -->
   <link rel="shortcut icon" type="image/icon" href="{% static 'translation/assets/images/favicon.ico' %}" />
   <!-- Font Awesome -->
@@ -19,12 +20,13 @@
   <!-- Slick slider -->
   <link rel="stylesheet" type="text/css" href="{% static 'translation/assets/css/slick.css' %}" />
   <!-- Fancybox slider -->
-  <link rel="stylesheet" href="{% static 'translation/assets/css/jquery.fancybox.css' %}" type="text/css" media="screen" />
+  <link rel="stylesheet" href="{% static 'translation/assets/css/jquery.fancybox.css' %}" type="text/css"
+    media="screen" />
   <!-- Animate css -->
   <link rel="stylesheet" type="text/css" href="{% static 'translation/assets/css/animate.css' %}" />
   <!-- Theme color -->
   <link id="switcher" href="{% static 'translation/assets/css/theme-color/default.css' %}" rel="stylesheet">
-  
+
   <!-- Main Style -->
   <link href="{% static 'translation/style.css' %}" rel="stylesheet">
 
@@ -69,7 +71,8 @@
             <span class="icon-bar"></span>
           </button>
           <!-- LOGO -->
-          <a class="navbar-brand logo" href="{% url 'translation:index' %}"><img src="{% static 'translation/assets/images/logo.jpg' %}" alt="logo"></a>
+          <a class="navbar-brand logo" href="{% url 'translation:index' %}"><img
+              src="{% static 'translation/assets/images/logo.jpg' %}" alt="logo"></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul id="top-menu" class="nav navbar-nav main-nav menu-scroll">
@@ -116,56 +119,60 @@
         <div class="col-md-12">
           <div class="blog-area">
             <div class="row">
-                <div class="col-lg-7 col-md-7 col-sm-12">
-                  <div class="blog-left blog-details">
-                    <!-- Start single blog post -->
-                    <article class="single-from-blog">
-  
-                      <div class="single-widget">
-                        <h2>Creation section</h2><br>
-                        <div class="single-widget">
-                            <h2>video Preview</h2>
-                            <video  controls="" id="media"  controls width="525" height="300">
-                              <source src="/media/{{video}}" >
-                           </video>
-                          </div>
-                          <div class="single-widget">
-                            <h2>Create your own script</h2>
-                            <textarea class="form-control z-depth-1" id="exampleFormControlTextarea6" rows="20" placeholder="Write something here..."></textarea>
-                          </div>
-                      </div>
-                      
-                    <button style="margin-left: 3rem;" class="button button-default col-sm-11"  data-text="Create"
-                      name="Create" ><span>Create </span></button>
-                    </article>
-                   
-                    {% endblock %}
-                    
-                    <!-- End single blog post -->
-                  </div>
-                  
-                </div>
-  
-                <div class="col-lg-5 col-md-5 col-sm-12">
-                  <aside class="blog-right">
-                    <!-- Start Sidebar Single widget -->
+              <div class="col-lg-7 col-md-7 col-sm-12">
+                <div class="blog-left blog-details">
+                  <!-- Start single blog post -->
+                  <article class="single-from-blog">
+
                     <div class="single-widget">
-                      <h2>How to create an SRT file </h2>
-                      <p>This image shows an ideal example of how to write your own <strong>SRT</strong> file </p><br>
-                      <img  src="{% static 'translation/assets/images/example_srt.jpg' %}" class="img-fluid popup"  width="400" height="200">
-                
-                      <center><label for="" style="color:mediumaquamarine ;">Click on the image to enlarge</label></center>
-                      <div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
-                        <div class="modal-dialog modal-lg">
-                          <div class="modal-content">
-                            <img id="popup-img" src="" alt="image">
-                          </div>
+                      <h2>Creation section</h2><br>
+                      <div class="single-widget">
+                        <h2>video Preview</h2>
+                        <video controls="" id="media" controls width="525" height="300">
+                          <source src="/media/{{video}}">
+                        </video>
+                      </div>
+                      <div class="single-widget">
+                        <h2>Create your own script</h2>
+                        <textarea class="form-control z-depth-1" id="exampleFormControlTextarea6" rows="20"
+                          placeholder="Write something here..."></textarea>
+                      </div>
+                    </div>
+
+                    <button style="margin-left: 3rem;" class="button button-default col-sm-11" data-text="Create"
+                      name="Create"><span>Create </span></button>
+                  </article>
+
+                  {% endblock %}
+
+                  <!-- End single blog post -->
+                </div>
+
+              </div>
+
+              <div class="col-lg-5 col-md-5 col-sm-12">
+                <aside class="blog-right">
+                  <!-- Start Sidebar Single widget -->
+                  <div class="single-widget">
+                    <h2>How to create an SRT file </h2>
+                    <p>This image shows an ideal example of how to write your own <strong>SRT</strong> file </p><br>
+                    <img src="{% static 'translation/assets/images/example_srt.jpg' %}" class="img-fluid popup"
+                      width="400" height="200">
+
+                    <center><label for="" style="color:mediumaquamarine ;">Click on the image to enlarge</label>
+                    </center>
+                    <div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog"
+                      aria-labelledby="myLargeModalLabel" aria-hidden="true">
+                      <div class="modal-dialog modal-lg">
+                        <div class="modal-content">
+                          <img id="popup-img" src="" alt="image">
                         </div>
                       </div>
                     </div>
-                    <!-- End Sidebar Single widget -->
-                   
-                    
+                  </div>
+                  <!-- End Sidebar Single widget -->
+
+
                 </aside>
               </div>
 
@@ -174,19 +181,24 @@
                   <!-- Start Sidebar Single widget -->
                   <div class="single-widget">
                     <h2>More details</h2>
-                    <p>If you have trouble understanding how to create your srt file, here are some pages that can help you</p><br>
-                    <a target="_blank" style="color: rgba(206, 73, 50, 0.774);"  href="https://www.socialmediaexaminer.com/create-custom-srt-files-video-subtitles/">How to Create Custom SRT Files for Video Subtitles</a>
-                    <a target="_blank" style="color: rgba(206, 73, 50, 0.774);"  href="https://www.socialmediaexaminer.com/create-custom-srt-files-video-subtitles/">How to Create a SRT File | BY SOFIA ENAMORADO</a>
+                    <p>If you have trouble understanding how to create your srt file, here are some pages that can help
+                      you</p><br>
+                    <a target="_blank" style="color: rgba(206, 73, 50, 0.774);"
+                      href="https://www.socialmediaexaminer.com/create-custom-srt-files-video-subtitles/">How to Create
+                      Custom SRT Files for Video Subtitles</a>
+                    <a target="_blank" style="color: rgba(206, 73, 50, 0.774);"
+                      href="https://www.socialmediaexaminer.com/create-custom-srt-files-video-subtitles/">How to Create
+                      a SRT File | BY SOFIA ENAMORADO</a>
                   </div>
                   <!-- End Sidebar Single widget -->
-                 
-                  
-              </aside>
+
+
+                </aside>
+              </div>
             </div>
-            </div>
+          </div>
         </div>
       </div>
-    </div>
   </section>
   <!-- End blog section -->
 
@@ -197,7 +209,8 @@
         <div class="row">
           <div class="col-md-12">
             <div class="footer-top-area">
-              <a class="footer-logo" href="#"><img src="{% static 'translation/assets/images/logo.jpg' %}" alt="Logo"></a>
+              <a class="footer-logo" href="#"><img src="{% static 'translation/assets/images/logo.jpg' %}"
+                  alt="Logo"></a>
               <div class="footer-social">
                 <a class="facebook" href="#"><span class="fa fa-facebook"></span></a>
                 <a class="twitter" href="#"><span class="fa fa-twitter"></span></a>
@@ -211,15 +224,15 @@
         </div>
       </div>
     </div>
-    
+
   </footer>
   <!-- End Footer -->
   <!-- jQuery library -->
-  
+
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
   <!-- Include all compiled plugins (below), or include individual files as needed -->
   <!-- Bootstrap -->
-  
+
   <script src="{% static 'translation/assets/js/bootstrap.js' %}"></script>
   <!-- Slick Slider -->
   <script type="text/javascript" src="{% static 'translation/assets/js/slick.js' %}"></script>
@@ -231,40 +244,41 @@
   <!-- Add fancyBox -->
   <script type="text/javascript" src="{% static 'translation/assets/js/jquery.fancybox.pack.js' %}"></script>
   <!-- Wow animation -->
-  
+
   <script type="text/javascript" src="{% static 'translation/assets/js/wow.js' %}"></script>
   <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
-  
+
   <!-- Custom js -->
   <script type="text/javascript" src="{% static 'translation/assets/js/custom.js' %}"></script>
 
 
   <script>
-      $('.popup').click(function(){
-        var src= $(this).attr('src');
-        $('.modal').modal('show');
-        $('#popup-img').attr('src', src);
-      });
-      
+    $('.popup').click(function () {
+      var src = $(this).attr('src');
+      $('.modal').modal('show');
+      $('#popup-img').attr('src', src);
+    });
   </script>
-      <script type="text/javascript">
-        var s ;
-        var sduration ; 
+  <script type="text/javascript">
+    var s;
+    var sduration;
 
     function sec2time(sduration) {
-        s = document.getElementById('media');
-        sduration = s.duration ;
-       var pad = function(num, size) {
-        return ('000' + num).slice(size * -1); },
-       time = parseFloat(sduration).toFixed(3),
-       hours = Math.floor(time / 60 / 60),
-       minutes = Math.floor(time / 60) % 60,
-       seconds = Math.floor(time - minutes * 60),
-       milliseconds = time.slice(-3);
+      s = document.getElementById('media');
+      sduration = s.duration;
+      var pad = function (num, size) {
+          return ('000' + num).slice(size * -1);
+        },
+        time = parseFloat(sduration).toFixed(3),
+        hours = Math.floor(time / 60 / 60),
+        minutes = Math.floor(time / 60) % 60,
+        seconds = Math.floor(time - minutes * 60),
+        milliseconds = time.slice(-3);
 
-    console.log(pad(hours, 2) + ':' + pad(minutes, 2) + ':' + pad(seconds, 2));
-    return pad(hours, 2) + ':' + pad(minutes, 2) + ':' + pad(seconds, 2);
-}
-    </script>
+      console.log(pad(hours, 2) + ':' + pad(minutes, 2) + ':' + pad(seconds, 2));
+      return pad(hours, 2) + ':' + pad(minutes, 2) + ':' + pad(seconds, 2);
+    }
+  </script>
 </body>
+
 </html>
