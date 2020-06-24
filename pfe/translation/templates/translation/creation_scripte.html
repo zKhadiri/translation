@@ -30,6 +30,8 @@
   <!-- Main Style -->
   <link href="{% static 'translation/style.css' %}" rel="stylesheet">
 
+
+
   <!-- Fonts -->
   <!-- Open Sans for body font -->
   <link href='https://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
@@ -119,27 +121,199 @@
         <div class="col-md-12">
           <div class="blog-area">
             <div class="row">
-              <div class="col-lg-7 col-md-7 col-sm-12">
+              <div class="col-lg-6 col-md-7 col-sm-12">
                 <div class="blog-left blog-details">
                   <!-- Start single blog post -->
                   <article class="single-from-blog">
 
                     <div class="single-widget">
                       <h2>Creation section</h2><br>
-                      <div class="single-widget">
-                        <h2>video Preview</h2>
-                        <video controls="" id="media" controls width="525" height="300">
-                          <source src="/media/{{video}}">
-                        </video>
-                      </div>
-                      <div class="single-widget">
+                     
+                      
+                      
+                      <div class="single-widget"  style="width: 500px; height: 350px; overflow-y: auto;" >
                         <h2>Create your own script</h2>
-                        <textarea class="form-control z-depth-1" id="exampleFormControlTextarea6" rows="20"
-                          placeholder="Write something here..."></textarea>
-                      </div>
-                    </div>
+                        <div id="cr">
+                          <div class="middle">
+                            <div class="multi-range-slider">
+                              <input type="range" id="input-left" min="0" max="100" value="25">
+                              <input type="range" id="input-right" min="0" max="100" value="75">
 
-                    <button style="margin-left: 3rem;" class="button button-default col-sm-11" data-text="Create"
+                              <div class="slider">
+                                <div class="track"></div>
+                                <div class="range"></div>
+                                <div class="thumb left"></div>
+                                <div class="thumb right"></div>
+                              </div>
+                            </div>
+                         
+                          </div>
+                          <br>
+                          <textarea class="form-control z-depth-1" id="exampleFormControlTextarea6" rows="3"
+                            placeholder="Write something here..."></textarea>
+                            <br>
+                        </div>
+
+                        
+                        <div id="cr-clone"></div>
+
+                      
+                        
+                       
+                      </div>
+                    
+                      <center><button id="btn_clone"  style=" color: #00d999;" class="button" onclick=""> + Add a subtitle</label></center>
+
+                    </div>
+                    <style>
+                      .slider {
+                        position: relative;
+                        z-index: 1;
+                        height: 10px;
+                        margin: 0 15px;
+                      }
+
+                      .slider>.track {
+                        position: absolute;
+                        z-index: 1;
+                        left: 0;
+                        right: 0;
+                        top: 0;
+                        bottom: 0;
+                        border-radius: 5px;
+                        background-color: #aee7e4;
+                      }
+
+                      .slider>.range {
+                        position: absolute;
+                        z-index: 2;
+                        left: 25%;
+                        right: 25%;
+                        top: 0;
+                        bottom: 0;
+                        border-radius: 5px;
+                        background-color: #00d999;
+                      }
+
+                      .slider>.thumb {
+                        position: absolute;
+                        z-index: 3;
+                        width: 30px;
+                        height: 30px;
+                        background-color: #00d999;
+                        border-radius: 50%;
+                        box-shadow: 0 0 0 0 rgba(0, 238, 198, 0.1);
+                        transition: box-shadow .3s ease-in-out;
+                      }
+
+                      .slider>.thumb.left {
+                        left: 25%;
+                        transform: translate(-15px, -10px);
+                      }
+
+                      .slider>.thumb.right {
+                        right: 25%;
+                        transform: translate(25px, -10px);
+                      }
+
+                      .slider>.thumb.hover {
+                        box-shadow: 0 0 0 20px rgba(98, 0, 238, .1);
+                      }
+
+                      .slider>.thumb.active {
+                        box-shadow: 0 0 0 40px rgba(98, 0, 238, .2);
+                      }
+
+                      input[type=range] {
+                        position: relative;
+                        pointer-events: none;
+                        -webkit-appearance: none;
+                        z-index: 2;
+                        height: 10px;
+                        width: 100%;
+                        opacity: 0;
+                      }
+
+                      input[type=range]::-webkit-slider-thumb {
+
+                        pointer-events: all;
+                        width: 30px;
+                        height: 30px;
+                        border-radius: 0;
+                        border: 0 none;
+                        background-color: red;
+                        -webkit-appearance: none;
+                      }
+                    </style>
+
+                    <script>
+                      var inputLeft = document.getElementById("input-left");
+                      var inputRight = document.getElementById("input-right");
+
+                      var thumbLeft = document.querySelector(".slider > .thumb.left");
+                      var thumbRight = document.querySelector(".slider > .thumb.right");
+                      var range = document.querySelector(".slider > .range");
+
+                      function setLeftValue() {
+                        var _this = inputLeft,
+                          min = parseInt(_this.min),
+                          max = parseInt(_this.max);
+
+                        _this.value = Math.min(parseInt(_this.value), parseInt(inputRight.value) - 1);
+
+                        var percent = ((_this.value - min) / (max - min)) * 100;
+
+                        thumbLeft.style.left = percent + "%";
+                        range.style.left = percent + "%";
+                      }
+                      setLeftValue();
+
+                      function setRightValue() {
+                        var _this = inputRight,
+                          min = parseInt(_this.min),
+                          max = parseInt(_this.max);
+
+                        _this.value = Math.max(parseInt(_this.value), parseInt(inputLeft.value) + 1);
+
+                        var percent = ((_this.value - min) / (max - min)) * 100;
+
+                        thumbRight.style.right = (100 - percent) + "%";
+                        range.style.right = (100 - percent) + "%";
+                      }
+                      setRightValue();
+
+                      inputLeft.addEventListener("input", setLeftValue);
+                      inputRight.addEventListener("input", setRightValue);
+
+                      inputLeft.addEventListener("mouseover", function () {
+                        thumbLeft.classList.add("hover");
+                      });
+                      inputLeft.addEventListener("mouseout", function () {
+                        thumbLeft.classList.remove("hover");
+                      });
+                      inputLeft.addEventListener("mousedown", function () {
+                        thumbLeft.classList.add("active");
+                      });
+                      inputLeft.addEventListener("mouseup", function () {
+                        thumbLeft.classList.remove("active");
+                      });
+
+                      inputRight.addEventListener("mouseover", function () {
+                        thumbRight.classList.add("hover");
+                      });
+                      inputRight.addEventListener("mouseout", function () {
+                        thumbRight.classList.remove("hover");
+                      });
+                      inputRight.addEventListener("mousedown", function () {
+                        thumbRight.classList.add("active");
+                      });
+                      inputRight.addEventListener("mouseup", function () {
+                        thumbRight.classList.remove("active");
+                      });
+                    </script>
+
+
+                    <button style="margin-left: 2.4rem;" class="button button-default col-sm-11" data-text="Create"
                       name="Create"><span>Create </span></button>
                   </article>
 
@@ -150,45 +324,16 @@
 
               </div>
 
-              <div class="col-lg-5 col-md-5 col-sm-12">
+              <div class="col-lg-6 col-md-6 col-sm-12">
                 <aside class="blog-right">
                   <!-- Start Sidebar Single widget -->
                   <div class="single-widget">
-                    <h2>How to create an SRT file </h2>
-                    <p>This image shows an ideal example of how to write your own <strong>SRT</strong> file </p><br>
-                    <img src="{% static 'translation/assets/images/example_srt.jpg' %}" class="img-fluid popup"
-                      width="400" height="200">
-
-                    <center><label for="" style="color:mediumaquamarine ;">Click on the image to enlarge</label>
-                    </center>
-                    <div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog"
-                      aria-labelledby="myLargeModalLabel" aria-hidden="true">
-                      <div class="modal-dialog modal-lg">
-                        <div class="modal-content">
-                          <img id="popup-img" src="" alt="image">
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  <!-- End Sidebar Single widget -->
-
-
-                </aside>
-              </div>
-
-              <div class="col-lg-5 col-md-5 col-sm-12">
-                <aside class="blog-right">
-                  <!-- Start Sidebar Single widget -->
-                  <div class="single-widget">
-                    <h2>More details</h2>
-                    <p>If you have trouble understanding how to create your srt file, here are some pages that can help
-                      you</p><br>
-                    <a target="_blank" style="color: rgba(206, 73, 50, 0.774);"
-                      href="https://www.socialmediaexaminer.com/create-custom-srt-files-video-subtitles/">How to Create
-                      Custom SRT Files for Video Subtitles</a>
-                    <a target="_blank" style="color: rgba(206, 73, 50, 0.774);"
-                      href="https://www.socialmediaexaminer.com/create-custom-srt-files-video-subtitles/">How to Create
-                      a SRT File | BY SOFIA ENAMORADO</a>
+                   
+                      <h2>video Preview</h2>
+                      <video controls="" id="media" controls width="500" height="300">
+                        <source src="/media/{{video}}">
+                      </video>
+                    
                   </div>
                   <!-- End Sidebar Single widget -->
 
@@ -279,6 +424,16 @@
       return pad(hours, 2) + ':' + pad(minutes, 2) + ':' + pad(seconds, 2);
     }
   </script>
+
+<script>
+  $(document).ready(function () {
+   $("#btn_clone").click(function () {
+     $("#cr").clone().appendTo("#cr-clone");
+            });
+      });
+</script> 
+
+
 </body>
 
 </html>

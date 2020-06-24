@@ -29,14 +29,13 @@ def creation_script(request):
 @csrf_exempt
 def generer_script(request):
     if 'video' in request.COOKIES:
+        srt_name = request.COOKIES['video'].split('.')[0]+'.vtt'
         if request.method =="POST":
             sub_file = request.FILES['mySub']
             if str(sub_file).split('.')[-1].lower()=="srt":
-                srt_name=''.join(random.choice(string.ascii_lowercase) for i in range(5))+".vtt"
                 with open('{}/{}'.format(os.path.abspath('translation/media'),srt_name),"w")as f:
                     f.write("WEBVTT\n"+str(sub_file.read().decode()).replace(',','.'))
             else:
-                srt_name=''.join(random.choice(string.ascii_lowercase) for i in range(5))+".vtt"
                 fs = FileSystemStorage()
                 fs.save(srt_name,sub_file)
             reponse= HttpResponse(json.dumps({'message': 'ok',}),content_type="application/json")
@@ -51,11 +50,12 @@ def play_video(request):
     if request.method == 'POST':
         url = request.POST.get('link')
         if "myVideo" in request.FILES and url =="":
+            video_upload=''.join(random.choice(string.ascii_lowercase) for i in range(5))+'.'+str(request.FILES['myVideo']).split('.')[-1]
             video = request.FILES['myVideo']
             fs = FileSystemStorage()
-            fs.save(video.name,video)
+            fs.save(video_upload,video)
             reponse= HttpResponse(json.dumps({'message': 'ok',}),content_type="application/json")
-            reponse.set_cookie("video",video.name)
+            reponse.set_cookie("video",video_upload)
             return reponse
         elif url != "" and url != None and not "myVideo" in request.FILES:
             try:
