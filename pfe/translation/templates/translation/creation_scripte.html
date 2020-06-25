@@ -1,7 +1,6 @@
 {% load static %}
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -26,11 +25,9 @@
   <link rel="stylesheet" type="text/css" href="{% static 'translation/assets/css/animate.css' %}" />
   <!-- Theme color -->
   <link id="switcher" href="{% static 'translation/assets/css/theme-color/default.css' %}" rel="stylesheet">
-
+  <link rel="stylesheet" type="text/css" href="{% static 'translation/assets/css/range.css' %}" />
   <!-- Main Style -->
   <link href="{% static 'translation/style.css' %}" rel="stylesheet">
-
-
 
   <!-- Fonts -->
   <!-- Open Sans for body font -->
@@ -45,10 +42,10 @@
       <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
       <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <![endif]-->
+
 </head>
 
 <body>
-  {% block content %}
   <!-- BEGAIN PRELOADER -->
   <div id="preloader">
     <div class="loader">&nbsp;</div>
@@ -128,15 +125,12 @@
 
                     <div class="single-widget">
                       <h2>Creation section</h2><br>
-                     
-                      
-                      
-                      <div class="single-widget"  style="width: 500px; height: 350px; overflow-y: auto;" >
+                      <div class="single-widget" style="width: 500px; height: 350px; overflow-y: auto;">
                         <h2>Create your own script</h2>
                         <div id="cr">
                           <div class="middle">
                             <div class="multi-range-slider">
-                              <input type="range" id="input-left" min="0" max="100" value="25">
+                              <input type="range" id="input-left" min="0" max="100" value="0">
                               <input type="range" id="input-right" min="0" max="100" value="75">
 
                               <div class="slider">
@@ -146,179 +140,23 @@
                                 <div class="thumb right"></div>
                               </div>
                             </div>
-                         
+
                           </div>
                           <br>
                           <textarea class="form-control z-depth-1" id="exampleFormControlTextarea6" rows="3"
                             placeholder="Write something here..."></textarea>
-                            <br>
+                          <br>
                         </div>
-
-                        
                         <div id="cr-clone"></div>
-
-                      
-                        
-                       
                       </div>
-                    
-                      <center><button id="btn_clone"  style=" color: #00d999;" class="button" onclick=""> + Add a subtitle</label></center>
+
+                      <center><button id="btn_clone" style=" color: #00d999;" class="button" onclick=""> + Add a
+                          subtitle</label></center>
 
                     </div>
-                    <style>
-                      .slider {
-                        position: relative;
-                        z-index: 1;
-                        height: 10px;
-                        margin: 0 15px;
-                      }
-
-                      .slider>.track {
-                        position: absolute;
-                        z-index: 1;
-                        left: 0;
-                        right: 0;
-                        top: 0;
-                        bottom: 0;
-                        border-radius: 5px;
-                        background-color: #aee7e4;
-                      }
-
-                      .slider>.range {
-                        position: absolute;
-                        z-index: 2;
-                        left: 25%;
-                        right: 25%;
-                        top: 0;
-                        bottom: 0;
-                        border-radius: 5px;
-                        background-color: #00d999;
-                      }
-
-                      .slider>.thumb {
-                        position: absolute;
-                        z-index: 3;
-                        width: 30px;
-                        height: 30px;
-                        background-color: #00d999;
-                        border-radius: 50%;
-                        box-shadow: 0 0 0 0 rgba(0, 238, 198, 0.1);
-                        transition: box-shadow .3s ease-in-out;
-                      }
-
-                      .slider>.thumb.left {
-                        left: 25%;
-                        transform: translate(-15px, -10px);
-                      }
-
-                      .slider>.thumb.right {
-                        right: 25%;
-                        transform: translate(25px, -10px);
-                      }
-
-                      .slider>.thumb.hover {
-                        box-shadow: 0 0 0 20px rgba(98, 0, 238, .1);
-                      }
-
-                      .slider>.thumb.active {
-                        box-shadow: 0 0 0 40px rgba(98, 0, 238, .2);
-                      }
-
-                      input[type=range] {
-                        position: relative;
-                        pointer-events: none;
-                        -webkit-appearance: none;
-                        z-index: 2;
-                        height: 10px;
-                        width: 100%;
-                        opacity: 0;
-                      }
-
-                      input[type=range]::-webkit-slider-thumb {
-
-                        pointer-events: all;
-                        width: 30px;
-                        height: 30px;
-                        border-radius: 0;
-                        border: 0 none;
-                        background-color: red;
-                        -webkit-appearance: none;
-                      }
-                    </style>
-
-                    <script>
-                      var inputLeft = document.getElementById("input-left");
-                      var inputRight = document.getElementById("input-right");
-
-                      var thumbLeft = document.querySelector(".slider > .thumb.left");
-                      var thumbRight = document.querySelector(".slider > .thumb.right");
-                      var range = document.querySelector(".slider > .range");
-
-                      function setLeftValue() {
-                        var _this = inputLeft,
-                          min = parseInt(_this.min),
-                          max = parseInt(_this.max);
-
-                        _this.value = Math.min(parseInt(_this.value), parseInt(inputRight.value) - 1);
-
-                        var percent = ((_this.value - min) / (max - min)) * 100;
-
-                        thumbLeft.style.left = percent + "%";
-                        range.style.left = percent + "%";
-                      }
-                      setLeftValue();
-
-                      function setRightValue() {
-                        var _this = inputRight,
-                          min = parseInt(_this.min),
-                          max = parseInt(_this.max);
-
-                        _this.value = Math.max(parseInt(_this.value), parseInt(inputLeft.value) + 1);
-
-                        var percent = ((_this.value - min) / (max - min)) * 100;
-
-                        thumbRight.style.right = (100 - percent) + "%";
-                        range.style.right = (100 - percent) + "%";
-                      }
-                      setRightValue();
-
-                      inputLeft.addEventListener("input", setLeftValue);
-                      inputRight.addEventListener("input", setRightValue);
-
-                      inputLeft.addEventListener("mouseover", function () {
-                        thumbLeft.classList.add("hover");
-                      });
-                      inputLeft.addEventListener("mouseout", function () {
-                        thumbLeft.classList.remove("hover");
-                      });
-                      inputLeft.addEventListener("mousedown", function () {
-                        thumbLeft.classList.add("active");
-                      });
-                      inputLeft.addEventListener("mouseup", function () {
-                        thumbLeft.classList.remove("active");
-                      });
-
-                      inputRight.addEventListener("mouseover", function () {
-                        thumbRight.classList.add("hover");
-                      });
-                      inputRight.addEventListener("mouseout", function () {
-                        thumbRight.classList.remove("hover");
-                      });
-                      inputRight.addEventListener("mousedown", function () {
-                        thumbRight.classList.add("active");
-                      });
-                      inputRight.addEventListener("mouseup", function () {
-                        thumbRight.classList.remove("active");
-                      });
-                    </script>
-
-
                     <button style="margin-left: 2.4rem;" class="button button-default col-sm-11" data-text="Create"
                       name="Create"><span>Create </span></button>
                   </article>
-
-                  {% endblock %}
-
                   <!-- End single blog post -->
                 </div>
 
@@ -328,12 +166,12 @@
                 <aside class="blog-right">
                   <!-- Start Sidebar Single widget -->
                   <div class="single-widget">
-                   
-                      <h2>video Preview</h2>
-                      <video controls="" id="media" controls width="500" height="300">
-                        <source src="/media/{{video}}">
-                      </video>
-                    
+
+                    <h2>video Preview</h2>
+                    <video controls="" id="media" controls width="500" height="300">
+                      <source src="/media/{{video}}">
+                    </video>
+
                   </div>
                   <!-- End Sidebar Single widget -->
 
@@ -391,23 +229,13 @@
   <!-- Wow animation -->
 
   <script type="text/javascript" src="{% static 'translation/assets/js/wow.js' %}"></script>
-  <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
-
+  <script type="text/javascript" src="{% static 'translation/assets/js/range.js' %}"></script>
   <!-- Custom js -->
   <script type="text/javascript" src="{% static 'translation/assets/js/custom.js' %}"></script>
 
-
-  <script>
-    $('.popup').click(function () {
-      var src = $(this).attr('src');
-      $('.modal').modal('show');
-      $('#popup-img').attr('src', src);
-    });
-  </script>
   <script type="text/javascript">
     var s;
     var sduration;
-
     function sec2time(sduration) {
       s = document.getElementById('media');
       sduration = s.duration;
@@ -419,21 +247,17 @@
         minutes = Math.floor(time / 60) % 60,
         seconds = Math.floor(time - minutes * 60),
         milliseconds = time.slice(-3);
-
       console.log(pad(hours, 2) + ':' + pad(minutes, 2) + ':' + pad(seconds, 2));
       return pad(hours, 2) + ':' + pad(minutes, 2) + ':' + pad(seconds, 2);
     }
   </script>
-
-<script>
-  $(document).ready(function () {
-   $("#btn_clone").click(function () {
-     $("#cr").clone().appendTo("#cr-clone");
-            });
+  <script>
+    $(document).ready(function () {
+      $("#btn_clone").click(function () {
+        $("#cr").clone().appendTo("#cr-clone");
       });
-</script> 
-
-
+    });
+  </script>
 </body>
 
 </html>
