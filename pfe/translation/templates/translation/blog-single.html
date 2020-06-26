@@ -13,8 +13,6 @@
   <link rel="shortcut icon" type="image/icon" href="{% static 'translation/assets/images/favicon.ico' %}" />
   <!-- Font Awesome -->
   <link href="{% static 'translation/assets/css/font-awesome.css' %}" rel="stylesheet">
-  <!-- Sweet Alerte -->
-  <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-sweetalert/1.0.1/sweetalert.min.css" rel="stylesheet">
   <!-- Bootstrap -->
   <link href="{% static 'translation/assets/css/bootstrap.css' %}" rel="stylesheet">
   <!-- Slick slider -->
@@ -46,7 +44,6 @@
 </head>
 
 <body>
-  {% block content %}
   <!-- BEGAIN PRELOADER -->
   <div id="preloader">
     <div class="loader">&nbsp;</div>
@@ -196,18 +193,14 @@
                         </div>
                         <div class="modal-footer">
                           <button type="button" class="btn btn-secondary"><a style="color:grey; text-decoration:none"
-                              href="/generate-script/">Importer un fichier SRT</a></button>
+                              href="{%url 'translation:generate-script' %}">Importer un fichier SRT</a></button>
                           <button type="button" style="background-color:#00d999; border: none; "
                             class="btn btn-primary"><a style="color: white; text-decoration:none"
-                              href="/creat-script/">Créer un ficher SRT</a></button>
+                              href="{%url 'translation:creat-script' %}">Créer un ficher SRT</a></button>
                         </div>
                       </div>
                     </div>
                   </div>
-
-
-                  {% endblock %}
-
                   <!-- End single blog post -->
                 </div>
               </div>

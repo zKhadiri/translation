@@ -3,6 +3,8 @@ from django.http import HttpResponse
 from django.core.files.storage import FileSystemStorage
 import requests,os,re,pytube,json,mimetypes,random,string
 from django.views.decorators.csrf import csrf_exempt
+from requests.adapters import HTTPAdapter
+from django.core.mail import send_mail
 
 def watch(request):
     if 'video' in request.COOKIES and 'srt' in request.COOKIES:
@@ -10,7 +12,19 @@ def watch(request):
     else:
         return render(request,'translation/error.html')
 
+@csrf_exempt
 def index(request):
+    if request.method =="POST":
+        user_name = request.POST['user_name']
+        user_email = request.POST['user_email']
+        user_description = request.POST['des']
+        send_mail(
+            "Email from "+user_name,
+            user_description,
+            user_email,
+            ['zakariya-khadiri@hotmail.fr'],
+        )  
+        return render(request,'translation/index.html', {"user_name":user_name})
     response =  render(request,'translation/index.html', {'nbar': 'home'})
     response.delete_cookie('video')
     response.delete_cookie('srt')
@@ -68,14 +82,16 @@ def play_video(request):
                     return response
                 elif mimetypes.MimeTypes().guess_type(url)[0].startswith("video"):
                     video_extension=''.join(random.choice(string.ascii_lowercase) for i in range(5))+'.'+url.split('/')[-1].split('.')[-1]
-                    r = requests.get(url,stream=True)
-                    with open('{}/{}'.format(os.path.abspath('translation/media'),video_extension), 'wb') as f:
-                        for chunk in r.iter_content(chunk_size=1024):
-                            if chunk:
-                                f.write(chunk)
-                    reponse = HttpResponse(json.dumps({'message': 'ok'}),content_type="application/json")
-                    reponse.set_cookie("video",video_extension)
-                    return reponse
+                    with requests.Session() as s:
+                        s.mount('https://', HTTPAdapter(max_retries=20))
+                        r = s.get(url,stream=True)
+                        with open('{}/{}'.format(os.path.abspath('translation/media'),video_extension), 'wb') as f:
+                            for chunk in r.iter_content(chunk_size=1024):
+                                if chunk:
+                                    f.write(chunk)
+                        reponse = HttpResponse(json.dumps({'message': 'ok'}),content_type="application/json")
+                        reponse.set_cookie("video",video_extension)
+                        return reponse
             except Exception:
                 return HttpResponse(json.dumps({'message': 'not valid'}),content_type="application/json")
         
