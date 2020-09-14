@@ -22,7 +22,7 @@ def index(request):
             "Email from "+user_name,
             user_description,
             user_email,
-            ['zakariya-khadiri@hotmail.fr'],
+            ['test-tosend@mail.com'],
         )  
         return render(request,'translation/index.html', {"user_name":user_name})
     response =  render(request,'translation/index.html', {'nbar': 'home'})

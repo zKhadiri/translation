@@ -1,6 +1,7 @@
 {% load static %}
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -25,9 +26,11 @@
   <link rel="stylesheet" type="text/css" href="{% static 'translation/assets/css/animate.css' %}" />
   <!-- Theme color -->
   <link id="switcher" href="{% static 'translation/assets/css/theme-color/default.css' %}" rel="stylesheet">
-  <link rel="stylesheet" type="text/css" href="{% static 'translation/assets/css/range.css' %}" />
+
   <!-- Main Style -->
   <link href="{% static 'translation/style.css' %}" rel="stylesheet">
+
+
 
   <!-- Fonts -->
   <!-- Open Sans for body font -->
@@ -42,10 +45,10 @@
       <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
       <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <![endif]-->
-
 </head>
 
 <body>
+  {% block content %}
   <!-- BEGAIN PRELOADER -->
   <div id="preloader">
     <div class="loader">&nbsp;</div>
@@ -125,38 +128,26 @@
 
                     <div class="single-widget">
                       <h2>Creation section</h2><br>
-                      <div class="single-widget" style="width: 500px; height: 350px; overflow-y: auto;">
+                     
+                      
+                      
+                      <div class="single-widget"  style="width: 500px; height: 400px; " >
                         <h2>Create your own script</h2>
-                        <div id="cr">
-                          <div class="middle">
-                            <div class="multi-range-slider">
-                              <input type="range" id="input-left" min="0" max="100" value="0">
-                              <input type="range" id="input-right" min="0" max="100" value="75">
+                   
 
-                              <div class="slider">
-                                <div class="track"></div>
-                                <div class="range"></div>
-                                <div class="thumb left"></div>
-                                <div class="thumb right"></div>
-                              </div>
-                            </div>
-
-                          </div>
-                          <br>
-                          <textarea class="form-control z-depth-1" id="exampleFormControlTextarea6" rows="3"
-                            placeholder="Write something here..."></textarea>
-                          <br>
-                        </div>
-                        <div id="cr-clone"></div>
+                        <textarea class="form-control z-depth-1" id="exampleFormControlTextarea6" rows="15" placeholder="Write something here..."></textarea>
                       </div>
-
-                      <center><button id="btn_clone" style=" color: #00d999;" class="button" onclick=""> + Add a
-                          subtitle</label></center>
+                    
+                      <button style="margin-left: 2.4rem;" class="button button-default col-sm-11" data-text="Create"
+                      name="Create"><span>Create </span></button>
 
                     </div>
-                    <button style="margin-left: 2.4rem;" class="button button-default col-sm-11" data-text="Create"
-                      name="Create"><span>Create </span></button>
+                    
+                    
                   </article>
+
+                  {% endblock %}
+
                   <!-- End single blog post -->
                 </div>
 
@@ -165,14 +156,31 @@
               <div class="col-lg-6 col-md-6 col-sm-12">
                 <aside class="blog-right">
                   <!-- Start Sidebar Single widget -->
+                  
                   <div class="single-widget">
-
-                    <h2>video Preview</h2>
-                    <video controls="" id="media" controls width="500" height="300">
-                      <source src="/media/{{video}}">
-                    </video>
-
+                    <h2>How to create an SRT file </h2>
+                    <p>This image shows an ideal example of how to write your own <strong>SRT</strong> file </p><br>
+                    <img  src="{% static 'translation/assets/images/example_srt.jpg' %}" class="img-fluid popup" style="margin-left: 4rem;"  width="400" height="200">
+              
+                    <center><label for="" style="color:mediumaquamarine ;">Click on the image to enlarge</label></center>
+                    <div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+                      <div class="modal-dialog modal-lg">
+                        <div class="modal-content">
+                          <img id="popup-img" src="" alt="image">
+                        </div>
+                      </div>
+                    </div>
                   </div>
+                  
+                  <div class="single-widget">
+                   
+                      <h2>video Preview</h2>
+                      <video controls="" id="media" controls width="500" height="300">
+                        <source src="/media/{{video}}">
+                      </video>
+                    
+                  </div>
+
                   <!-- End Sidebar Single widget -->
 
 
@@ -229,35 +237,29 @@
   <!-- Wow animation -->
 
   <script type="text/javascript" src="{% static 'translation/assets/js/wow.js' %}"></script>
-  <script type="text/javascript" src="{% static 'translation/assets/js/range.js' %}"></script>
+  <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+
   <!-- Custom js -->
   <script type="text/javascript" src="{% static 'translation/assets/js/custom.js' %}"></script>
 
-  <script type="text/javascript">
-    var s;
-    var sduration;
-    function sec2time(sduration) {
-      s = document.getElementById('media');
-      sduration = s.duration;
-      var pad = function (num, size) {
-          return ('000' + num).slice(size * -1);
-        },
-        time = parseFloat(sduration).toFixed(3),
-        hours = Math.floor(time / 60 / 60),
-        minutes = Math.floor(time / 60) % 60,
-        seconds = Math.floor(time - minutes * 60),
-        milliseconds = time.slice(-3);
-      console.log(pad(hours, 2) + ':' + pad(minutes, 2) + ':' + pad(seconds, 2));
-      return pad(hours, 2) + ':' + pad(minutes, 2) + ':' + pad(seconds, 2);
-    }
-  </script>
+
   <script>
-    $(document).ready(function () {
-      $("#btn_clone").click(function () {
-        $("#cr").clone().appendTo("#cr-clone");
-      });
+    $('.popup').click(function () {
+      var src = $(this).attr('src');
+      $('.modal').modal('show');
+      $('#popup-img').attr('src', src);
     });
   </script>
+
+<script>
+  $(document).ready(function () {
+   $("#btn_clone").click(function () {
+     $("#cr").clone().appendTo("#cr-clone");
+            });
+      });
+</script> 
+
+
 </body>
 
 </html>
