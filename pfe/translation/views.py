@@ -33,9 +33,22 @@ def index(request):
 def error_404(request, exception):
     return render(request,'translation/404.html', status = 404)
 
+@csrf_exempt
 def creation_script(request):
-    if 'video' in request.COOKIES:
+    if 'video' in request.COOKIES and request.method == "GET":
         return render(request,'translation/creation_scripte.html',{"video":request.COOKIES['video']})
+    
+    elif 'video' in request.COOKIES and request.method == "POST":
+        if request.POST.get('srt') != '':
+            srt_name=request.COOKIES['video'].split('.')[0]+'.vtt'
+            with open('{}/{}'.format(os.path.abspath('translation/media'),srt_name),"w")as f:
+                f.write("WEBVTT\n\r"+request.POST.get('srt'))
+            reponse= HttpResponse(json.dumps({'message': 'ok',}),content_type="application/json")
+            reponse.set_cookie("srt",srt_name)
+            return reponse
+        else:
+            return HttpResponse(json.dumps({'message': 'not valid'}),content_type="application/json")
+    
     else:
         return render(request,'translation/error.html')
     

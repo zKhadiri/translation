@@ -48,7 +48,6 @@
 </head>
 
 <body>
-  {% block content %}
   <!-- BEGAIN PRELOADER -->
   <div id="preloader">
     <div class="loader">&nbsp;</div>
@@ -128,26 +127,27 @@
 
                     <div class="single-widget">
                       <h2>Creation section</h2><br>
-                     
-                      
-                      
-                      <div class="single-widget"  style="width: 500px; height: 400px; " >
-                        <h2>Create your own script</h2>
-                   
 
-                        <textarea class="form-control z-depth-1" id="exampleFormControlTextarea6" rows="15" placeholder="Write something here..."></textarea>
+
+
+                      <div class="single-widget" style="width: 500px; height: 400px; ">
+                        <h2>Create your own script</h2>
+
+                        <form method="POST" action="" id="frm_srt">
+                          <textarea class="form-control z-depth-1" id="exampleFormControlTextarea6" rows="15"
+                            placeholder="Write something here..." name="srt"></textarea>
                       </div>
-                    
+
                       <button style="margin-left: 2.4rem;" class="button button-default col-sm-11" data-text="Create"
-                      name="Create"><span>Create </span></button>
+                        name="Create"><span>Create </span></button>
 
                     </div>
-                    
-                    
+                    </form>
+                    <p id="myElem" class="label label-success" style="display:none">Subtitles file created with success , Click on watch to continue.... </p>
+                    <p id="error" class="label label-info " style="display:none">Sorry we couldn't create your file , textarea should not be empty</p>
+                    <button style="margin-left: 2.4rem;" class="button button-default col-sm-11" data-text="Create"
+                      name="watch" onClick="parent.location='/watch/'"><span>watch </span></button>
                   </article>
-
-                  {% endblock %}
-
                   <!-- End single blog post -->
                 </div>
 
@@ -156,14 +156,17 @@
               <div class="col-lg-6 col-md-6 col-sm-12">
                 <aside class="blog-right">
                   <!-- Start Sidebar Single widget -->
-                  
+
                   <div class="single-widget">
                     <h2>How to create an SRT file </h2>
                     <p>This image shows an ideal example of how to write your own <strong>SRT</strong> file </p><br>
-                    <img  src="{% static 'translation/assets/images/example_srt.jpg' %}" class="img-fluid popup" style="margin-left: 4rem;"  width="400" height="200">
-              
-                    <center><label for="" style="color:mediumaquamarine ;">Click on the image to enlarge</label></center>
-                    <div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+                    <img src="{% static 'translation/assets/images/example_srt.jpg' %}" class="img-fluid popup"
+                      style="margin-left: 4rem;" width="400" height="200">
+
+                    <center><label for="" style="color:mediumaquamarine ;">Click on the image to enlarge</label>
+                    </center>
+                    <div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog"
+                      aria-labelledby="myLargeModalLabel" aria-hidden="true">
                       <div class="modal-dialog modal-lg">
                         <div class="modal-content">
                           <img id="popup-img" src="" alt="image">
@@ -171,14 +174,14 @@
                       </div>
                     </div>
                   </div>
-                  
+
                   <div class="single-widget">
-                   
-                      <h2>video Preview</h2>
-                      <video controls="" id="media" controls width="500" height="300">
-                        <source src="/media/{{video}}">
-                      </video>
-                    
+
+                    <h2>video Preview</h2>
+                    <video controls="" id="media" controls width="500" height="300">
+                      <source src="/media/{{video}}">
+                    </video>
+
                   </div>
 
                   <!-- End Sidebar Single widget -->
@@ -251,14 +254,46 @@
     });
   </script>
 
-<script>
-  $(document).ready(function () {
-   $("#btn_clone").click(function () {
-     $("#cr").clone().appendTo("#cr-clone");
-            });
+  <script>
+    $(document).ready(function () {
+      $("#btn_clone").click(function () {
+        $("#cr").clone().appendTo("#cr-clone");
       });
-</script> 
+    });
+  </script>
+  <script>
+    $(function () {
+      $("#myElem").hide();
+      $("#error").hide();
+      $("#frm_srt").submit(function () {
+        var data = new FormData($('#frm_srt').get(0));
+        $.ajax({
+          type: "POST",
+          url: "{% url 'translation:creat-script' %}",
+          data: data,
+          cache: false,
+          contentType: false,
+          processData: false,
+          success: function (json) {
+            if (json.message == 'ok') {
+              $("#error").hide();
+              $("#myElem").show();
+            }
+            else if (json.message == 'not valid') {
+              $("#error").show();
+              $("#myElem").hide();
+            }
 
+
+          },
+          failure: function () {
+            $(this).addClass("error");
+          }
+        });
+        return false;
+      });
+    });
+  </script>
 
 </body>
 
