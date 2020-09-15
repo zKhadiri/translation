@@ -44,7 +44,7 @@
 </head>
 
 <body>
-  {% block content %}
+
   <!-- BEGAIN PRELOADER -->
   <div id="preloader">
     <div class="loader">&nbsp;</div>
@@ -132,15 +132,14 @@
                     </div>
                     
 
-                    <button style="margin-left: 3rem;" class="button button-default col-md-11" data-text="Download"
-                      type="submit" id="Download-btn" name="Download"><span>Download the video</span></button>
-
+                    <!-- <button style="margin-left: 3rem;" class="button button-default col-md-11" data-text="Download"
+                      type="submit" id="Download-btn" name="Download"><span>Download the video</span></button> -->
+                      <a href="/media/{{video}}" onclick="window.open('/media/{{srt}}');
+                      return true;" download>
+                        Download
+                     </a>
 
                   </article>
-
-
-
-                  {% endblock %}
 
                   <!-- End single blog post -->
                 </div>
