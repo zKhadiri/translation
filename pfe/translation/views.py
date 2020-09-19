@@ -1,13 +1,21 @@
 from django.shortcuts import render
 from django.http import HttpResponse
 from django.core.files.storage import FileSystemStorage
-import requests,os,re,pytube,json,mimetypes,random,string
+import requests,os,re,pytube,json,mimetypes,random,string,subprocess,glob
 from django.views.decorators.csrf import csrf_exempt
 from requests.adapters import HTTPAdapter
 from django.core.mail import send_mail
 
+MEDIA_PATH=os.path.abspath('translation/media')
+
+def convert(srt,video,random_name):
+    subprocess.check_output(['ffmpeg', '-i',MEDIA_PATH+'/'+srt,MEDIA_PATH+'/'+srt.split('.')[0]+'.ass'])
+    subprocess.check_output(['ffmpeg','-threads','auto','-y', '-i',MEDIA_PATH+'/'+video, '-vf','ass='+MEDIA_PATH+'/'+srt.split('.')[0]+'.ass','-preset','ultrafast',MEDIA_PATH+'/'+random_name+'.mp4']) 
+    for file_name in glob.glob(MEDIA_PATH+'/'+srt.split('.')[0]+'.*'):
+        os.remove(file_name)
+
 def watch(request):
-    if 'video' in request.COOKIES and 'srt' in request.COOKIES:
+    if 'video' in request.COOKIES:
         return render(request,'translation/watch.html',{"video":request.COOKIES['video'],"srt":request.COOKIES['srt']})
     else:
         return render(request,'translation/error.html')
@@ -27,7 +35,6 @@ def index(request):
         return render(request,'translation/index.html', {"user_name":user_name})
     response =  render(request,'translation/index.html', {'nbar': 'home'})
     response.delete_cookie('video')
-    response.delete_cookie('srt')
     return response
 
 def error_404(request, exception):
@@ -40,11 +47,13 @@ def creation_script(request):
     
     elif 'video' in request.COOKIES and request.method == "POST":
         if request.POST.get('srt') != '':
+            random_name = ''.join(random.choice(string.ascii_lowercase) for i in range(5))
             srt_name=request.COOKIES['video'].split('.')[0]+'.vtt'
-            with open('{}/{}'.format(os.path.abspath('translation/media'),srt_name),"w")as f:
+            with open('{}/{}'.format(MEDIA_PATH,srt_name),"w")as f:
                 f.write("WEBVTT\n\r"+request.POST.get('srt'))
             reponse= HttpResponse(json.dumps({'message': 'ok',}),content_type="application/json")
-            reponse.set_cookie("srt",srt_name)
+            convert(srt_name,request.COOKIES['video'],random_name)
+            reponse.set_cookie("video",random_name+'.mp4')
             return reponse
         else:
             return HttpResponse(json.dumps({'message': 'not valid'}),content_type="application/json")
@@ -56,18 +65,21 @@ def creation_script(request):
 @csrf_exempt
 def generer_script(request):
     if 'video' in request.COOKIES:
+        random_name = ''.join(random.choice(string.ascii_lowercase) for i in range(5))
         srt_name = request.COOKIES['video'].split('.')[0]+'.vtt'
         if request.method =="POST":
             sub_file = request.FILES['mySub']
             if str(sub_file).split('.')[-1].lower()=="srt":
-                with open('{}/{}'.format(os.path.abspath('translation/media'),srt_name),"w")as f:
+                with open('{}/{}'.format(MEDIA_PATH,srt_name),"w")as f:
                     f.write("WEBVTT\n"+str(sub_file.read().decode()).replace(',','.'))
             else:
                 fs = FileSystemStorage()
                 fs.save(srt_name,sub_file)
+            convert(srt_name,request.COOKIES['video'],random_name)
             reponse= HttpResponse(json.dumps({'message': 'ok',}),content_type="application/json")
-            reponse.set_cookie("srt",srt_name)
+            reponse.set_cookie("video",random_name+'.mp4')
             return reponse
+            
         return render(request,'translation/generer_script.html',{"video":request.COOKIES['video']})
     else:
         return render(request,'translation/error.html')
@@ -89,7 +101,7 @@ def play_video(request):
                 if re.match(r'^(https?\:\/\/)?(www\.youtube\.com|youtu\.?be)\/.+$',url):
                     video = pytube.YouTube(url)
                     video_name=''.join(random.choice(string.ascii_lowercase) for i in range(5))
-                    video.streams.get_highest_resolution().download(os.path.abspath('translation/media'),filename=video_name)
+                    video.streams.get_highest_resolution().download(MEDIA_PATH,filename=video_name)
                     response = HttpResponse(json.dumps({'message': 'ok',}),content_type="application/json")
                     response.set_cookie('video',video_name+'.mp4')
                     return response
@@ -98,7 +110,7 @@ def play_video(request):
                     with requests.Session() as s:
                         s.mount('https://', HTTPAdapter(max_retries=20))
                         r = s.get(url,stream=True)
-                        with open('{}/{}'.format(os.path.abspath('translation/media'),video_extension), 'wb') as f:
+                        with open('{}/{}'.format(MEDIA_PATH,video_extension), 'wb') as f:
                             for chunk in r.iter_content(chunk_size=1024):
                                 if chunk:
                                     f.write(chunk)
@@ -115,5 +127,4 @@ def play_video(request):
          
     reponse =  render(request,'translation/blog-single.html')
     reponse.delete_cookie('video')
-    reponse.delete_cookie('srt')
     return reponse
