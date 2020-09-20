@@ -9,14 +9,14 @@ from django.core.mail import send_mail
 MEDIA_PATH=os.path.abspath('translation/media')
 
 def convert(srt,video,random_name):
-    subprocess.check_output(['ffmpeg', '-i',MEDIA_PATH+'/'+srt,MEDIA_PATH+'/'+srt.split('.')[0]+'.ass'])
-    subprocess.check_output(['ffmpeg','-threads','auto','-y', '-i',MEDIA_PATH+'/'+video, '-vf','ass='+MEDIA_PATH+'/'+srt.split('.')[0]+'.ass','-preset','ultrafast',MEDIA_PATH+'/'+random_name+'.mp4']) 
+    subprocess.check_output(['ffmpeg','-i',srt,srt.split('.')[0]+'.ass'], cwd=MEDIA_PATH)
+    subprocess.check_output(['ffmpeg','-threads','auto','-y', '-i',video, '-vf','ass='+srt.split('.')[0]+'.ass','-preset','ultrafast',random_name+'.mp4'],cwd=MEDIA_PATH)
     for file_name in glob.glob(MEDIA_PATH+'/'+srt.split('.')[0]+'.*'):
         os.remove(file_name)
 
 def watch(request):
     if 'video' in request.COOKIES:
-        return render(request,'translation/watch.html',{"video":request.COOKIES['video'],"srt":request.COOKIES['srt']})
+        return render(request,'translation/watch.html',{"video":request.COOKIES['video']})
     else:
         return render(request,'translation/error.html')
 
@@ -50,7 +50,7 @@ def creation_script(request):
             random_name = ''.join(random.choice(string.ascii_lowercase) for i in range(5))
             srt_name=request.COOKIES['video'].split('.')[0]+'.vtt'
             with open('{}/{}'.format(MEDIA_PATH,srt_name),"w")as f:
-                f.write("WEBVTT\n\r"+request.POST.get('srt'))
+                f.write("WEBVTT\n\r"+request.POST.get('srt').replace('\r\n','\n'))
             reponse= HttpResponse(json.dumps({'message': 'ok',}),content_type="application/json")
             convert(srt_name,request.COOKIES['video'],random_name)
             reponse.set_cookie("video",random_name+'.mp4')
