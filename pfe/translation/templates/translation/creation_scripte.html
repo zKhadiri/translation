@@ -138,15 +138,23 @@
                             placeholder="Write something here..." name="srt"></textarea>
                       </div>
 
+                      <center>
+                        <div>
+                        <p id="myElem" class="label label-success" style="display:none">Subtitles file created with success , Click on watch to continue.... </p>
+                        <p id="error" class="label label-info " style="display:none">Sorry we couldn't create your file , textarea should not be empty</p>
+                      </div>
+                    </center>
+
                       <button style="margin-left: 2.4rem;" class="button button-default col-sm-11" data-text="Create"
                         name="Create"><span>Create </span></button>
 
                     </div>
                     </form>
-                    <p id="myElem" class="label label-success" style="display:none">Subtitles file created with success , Click on watch to continue.... </p>
-                    <p id="error" class="label label-info " style="display:none">Sorry we couldn't create your file , textarea should not be empty</p>
-                    <button style="margin-left: 2.4rem;" class="button button-default col-sm-11" data-text="Create"
-                      name="watch" onClick="parent.location='/watch/'"><span>watch </span></button>
+                   
+                <div id="watch_but" hidden>
+                    <button style="margin-left: 2.4rem;" class="button button-default col-sm-11" data-text="Watch the result >>"
+                      name="watch" onClick="parent.location='/watch/'" ><span>watch </span></button>
+                    </div>
                   </article>
                   <!-- End single blog post -->
                 </div>
@@ -278,6 +286,7 @@
             if (json.message == 'ok') {
               $("#error").hide();
               $("#myElem").show();
+              $("#watch_but").show();
             }
             else if (json.message == 'not valid') {
               $("#error").show();

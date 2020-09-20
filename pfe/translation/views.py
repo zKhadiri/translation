@@ -9,8 +9,8 @@ from django.core.mail import send_mail
 MEDIA_PATH=os.path.abspath('translation/media')
 
 def convert(srt,video,random_name):
-    subprocess.check_output(['ffmpeg','-i',srt,srt.split('.')[0]+'.ass'], cwd=MEDIA_PATH)
-    subprocess.check_output(['ffmpeg','-threads','auto','-y', '-i',video, '-vf','ass='+srt.split('.')[0]+'.ass','-preset','ultrafast',random_name+'.mp4'],cwd=MEDIA_PATH)
+    subprocess.check_output(['ffmpeg','-hide_banner','-i',srt,srt.split('.')[0]+'.ass'], cwd=MEDIA_PATH)
+    subprocess.check_output(['ffmpeg','-hide_banner','-threads','auto','-y', '-i',video, '-vf','ass='+srt.split('.')[0]+'.ass','-preset','ultrafast',random_name+'.mp4'],cwd=MEDIA_PATH)
     for file_name in glob.glob(MEDIA_PATH+'/'+srt.split('.')[0]+'.*'):
         os.remove(file_name)
 
